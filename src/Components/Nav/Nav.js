@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import styles from "./Nav.module.css";
 
@@ -20,17 +21,28 @@ export const Nav = () => {
       window.removeEventListener("scroll", navPlacemnt);
     };
   });
+
   return (
-    <div className={`${styles.nav} ${fixed ? styles.navFixed : styles.navAbs}`}>
+    <div className={`${styles.nav} ${fixed ? styles.navFixed : ""}`}>
       <div className={styles.name}>
-        <h2>Shadow Clan</h2>
+        <h2 className={styles.title}>Shadow Clan</h2>
       </div>
       <ul className={styles.navLinks}>
-        <li>Home</li>
-        <li>About Us</li>
-        <li>Merchendise</li>
-        <li>Chat</li>
-        <li>Login</li>
+        <Link to="/" className={styles.link}>
+          <li>Home</li>
+        </Link>
+        <a href="#aboutUs" className={styles.link}>
+          <li>About Us</li>
+        </a>
+        <Link to="/merchendise" className={styles.link}>
+          <li>Merchendise</li>
+        </Link>
+        <Link to="/chat" className={styles.link}>
+          <li>Chat</li>
+        </Link>
+        <Link to="/login" className={styles.link}>
+          <li>Login</li>
+        </Link>
       </ul>
     </div>
   );

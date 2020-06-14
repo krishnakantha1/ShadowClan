@@ -14,20 +14,17 @@
   right: 0;
 }
 
-.navAbs {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
 .name {
   display: flex;
   align-items: center;
 }
 
-h2 {
+.title {
   margin-left: 20px;
+}
+
+.link {
+  text-decoration: none;
 }
 
 ul {

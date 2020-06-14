@@ -1,17 +1,12 @@
 import React from "react";
 
 import styles from "./Home.module.css";
+import { Banner } from "./Banner";
 
 export const Home = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.banner}>
-        <h1>DARK DIMENSION</h1>
-        <p>Join us and become a legand</p>
-        <a className={styles.takeAtour} href="#aboutUs">
-          Take A Tour
-        </a>
-      </div>
+      <Banner />
       <div className={styles.aboutUs} id="aboutUs">
         <div>
           <h2>Wlcome to shadow clan</h2>

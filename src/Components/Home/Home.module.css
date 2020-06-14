@@ -15,7 +15,7 @@
   position: relative;
 }
 
-h1 {
+.banner h1 {
   color: floralwhite;
   font-size: 10rem;
   text-align: center;
