@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./Nav.module.css";
 
+import { LoginContext } from "../../Context/loginContext";
+
 export const Nav = () => {
   const [fixed, setFixed] = useState(false);
+
+  const { LoginDetail, loggout } = useContext(LoginContext);
 
   useEffect(() => {
     const navPlacemnt = (e) => {
@@ -40,9 +44,14 @@ export const Nav = () => {
         <Link to="/chat" className={styles.link}>
           <li>Chat</li>
         </Link>
-        <Link to="/login" className={styles.link}>
-          <li>Login</li>
-        </Link>
+
+        {LoginDetail.loggedIn ? (
+          <li onClick={loggout}>Logout</li>
+        ) : (
+          <Link to="/login" className={styles.link}>
+            <li>Login</li>
+          </Link>
+        )}
       </ul>
     </div>
   );

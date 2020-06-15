@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
+import { Login } from "./Login";
+
 import { LoginContext } from "../../Context/loginContext";
 
-export const Chat = () => {
+export const LoginLogout = () => {
   const { LoginDetail } = useContext(LoginContext);
 
-  return (
-    <div>{LoginDetail.loggedIn ? <h1>Chat</h1> : <h1>Please log in</h1>}</div>
-  );
+  return <>{LoginDetail.loggedIn ? "" : <Login />}</>;
 };
