@@ -2,6 +2,7 @@
   color: white;
 }
 
+/* banner */
 .banner {
   height: 100vh;
   background-color: black;
@@ -38,10 +39,24 @@
   cursor: pointer;
 }
 
+.bannerInvisible {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 0.5s all ease-in-out;
+}
+
+.bannerVisible {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: 0.5s all ease-in-out;
+}
+
+/* about us */
 .aboutUs {
   display: grid;
   grid-template-columns: 1fr 1fr;
   height: 100vh;
+  overflow: hidden;
 }
 
 .aboutUs div {
@@ -53,4 +68,29 @@
 }
 .aboutUs p {
   text-align: center;
+}
+
+.aboutInvLeft {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: 1s all ease-in-out;
+  transition-property: opacity, transform;
+}
+.aboutInvRight {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: 1s all ease-in-out;
+  transition-property: opacity, transform;
+}
+.aboutVisLeft {
+  opacity: 1;
+  transform: translateX(0px);
+  transition: 1s all ease-in-out;
+  transition-property: opacity, transform;
+}
+.aboutVisRight {
+  opacity: 1;
+  transform: translateX(0px);
+  transition: 1s all ease-in-out;
+  transition-property: opacity, transform;
 }
