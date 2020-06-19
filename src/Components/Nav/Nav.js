@@ -8,6 +8,7 @@ import { LoginContext } from "../../Context/loginContext";
 export const Nav = () => {
   const [fixed, setFixed] = useState(false);
   const [promptLogout, setPromptOut] = useState(false);
+  const [burger, toggleBurger] = useState(false);
 
   const { LoginDetail, loggout } = useContext(LoginContext);
 
@@ -38,39 +39,46 @@ export const Nav = () => {
         <div className={styles.logo}>
           <h2>Shadow Clan</h2>
         </div>
-        <ul className={styles.navLinks}>
-          <li className={styles.activeLink}>
+        <ul className={`${styles.navLinks} ${burger ? styles.navActive : ""}`}>
+          <li onClick={() => toggleBurger(!burger)}>
             <Link to="/" className={styles.link}>
               Home
             </Link>
           </li>
-          <li>
+          <li onClick={() => toggleBurger(!burger)}>
             <a href="/#aboutUs" className={styles.link}>
               About Us
             </a>
           </li>
-          <li>
+          <li onClick={() => toggleBurger(!burger)}>
             <Link to="/merchendise" className={styles.link}>
               Merchendise
             </Link>
           </li>
-          <li>
+          <li onClick={() => toggleBurger(!burger)}>
             <Link to="/chat" className={styles.link}>
               Chat
             </Link>
           </li>
 
           {LoginDetail.loggedIn ? (
-            <li onClick={() => setPromptOut(!promptLogout)}>Logout</li>
+            <li
+              onClick={() => {
+                setPromptOut(!promptLogout);
+                toggleBurger(!burger);
+              }}
+            >
+              Logout
+            </li>
           ) : (
-            <li>
+            <li onClick={() => toggleBurger(!burger)}>
               <Link to="/login" className={styles.link}>
                 Login
               </Link>
             </li>
           )}
         </ul>
-        <div className={styles.burger}>
+        <div className={styles.burger} onClick={() => toggleBurger(!burger)}>
           <div className={styles.line1}></div>
           <div className={styles.line2}></div>
           <div className={styles.line3}></div>

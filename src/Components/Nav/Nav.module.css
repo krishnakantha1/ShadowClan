@@ -1,6 +1,5 @@
 .nav {
   height: 10vh;
-  display: grid;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -31,6 +30,9 @@
 
 .link {
   text-decoration: none;
+}
+
+.nav li {
   cursor: pointer;
 }
 
@@ -57,13 +59,27 @@
     top: 10vh;
     right: 0;
     bottom: 0;
-    width: 50%;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    background-color: black;
+    background-color: floralwhite;
+
+    transform: translateX(100%);
+    transition: transform 0.5s ease-out;
+  }
+
+  .nav {
+    background-color: floralwhite;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .navActive {
+    transform: translateX(0%);
   }
 }
 
