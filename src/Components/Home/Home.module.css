@@ -1,24 +1,21 @@
 .container {
-  color: white;
+  width: 100%;
 }
-
 /* banner */
 .banner {
-  height: 100vh;
+  height: 90vh;
+  width: 100%;
   background-color: black;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.banner div {
   position: relative;
 }
 
 .banner h1 {
   color: floralwhite;
-  font-size: 10rem;
+  font-size: 10vw;
   text-align: center;
   width: 70%;
   line-height: 100%;
@@ -29,6 +26,7 @@
 
 .takeAtour {
   padding: 5px 10px;
+  text-transform: uppercase;
   font-size: 2rem;
   color: black;
   background-color: gold;
@@ -55,7 +53,7 @@
 .aboutUs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 100vh;
+  height: 90vh;
   overflow: hidden;
 }
 
@@ -93,4 +91,10 @@
   transform: translateX(0px);
   transition: 1s all ease-in-out;
   transition-property: opacity, transform;
+}
+
+@media screen and (max-width: 768px) {
+  .aboutUs {
+    grid-template-columns: 1fr;
+  }
 }

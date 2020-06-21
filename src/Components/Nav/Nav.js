@@ -78,7 +78,10 @@ export const Nav = () => {
             </li>
           )}
         </ul>
-        <div className={styles.burger} onClick={() => toggleBurger(!burger)}>
+        <div
+          className={`${styles.burger} ${burger ? styles.toggle : ""}`}
+          onClick={() => toggleBurger(!burger)}
+        >
           <div className={styles.line1}></div>
           <div className={styles.line2}></div>
           <div className={styles.line3}></div>
