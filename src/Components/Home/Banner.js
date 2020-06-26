@@ -27,17 +27,17 @@ export const Banner = () => {
   });
 
   return (
-    <div
-      className={`${styles.banner} ${
-        visible ? styles.bannerVisible : styles.bannerInvisible
-      }`}
-      ref={box}
-    >
-      <h1>DARK DIMENSION</h1>
-      <p>Join us and become a legand</p>
-      <a className={styles.takeAtour} href="#aboutUs">
-        Take A Tour
-      </a>
+    <div className={styles.banner}>
+      <div
+        className={visible ? styles.bannerVisible : styles.bannerInvisible}
+        ref={box}
+      >
+        <h1>DARK DIMENSION</h1>
+        <p>Join us and become a legand</p>
+        <a className={styles.takeAtour} href="#tour">
+          Take A Tour
+        </a>
+      </div>
     </div>
   );
 };

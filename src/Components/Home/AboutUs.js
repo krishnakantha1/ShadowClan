@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import styles from "./Home.module.css";
+import img from "./img/aboutUs.png";
 
 export const AboutUs = () => {
   const [visible, setVisible] = useState(false);
@@ -27,25 +28,20 @@ export const AboutUs = () => {
   });
   return (
     <div className={styles.aboutUs} id="aboutUs" ref={box}>
-      <div className={visible ? styles.aboutVisLeft : styles.aboutInvLeft}>
-        <h2>Wlcome to shadow clan</h2>
-        <p>"An opportunity to give the starting point for noob tobe pro"</p>
-        <p>
-          Kishkinda is the kingdom of the vanara King Sugriva. The younger
-          brother Bali, in the Sanskrit epic Ramayan. According to the
-          historical account india, this was the kningdom where Sugriva ruled
-          with the
-        </p>
-      </div>
-      <div className={visible ? styles.aboutVisRight : styles.aboutInvRight}>
-        <h2>Wlcome to shadow clan</h2>
-        <p>"An opportunity to give the starting point for noob tobe pro"</p>
-        <p>
-          Kishkinda is the kingdom of the vanara King Sugriva. The younger
-          brother Bali, in the Sanskrit epic Ramayan. According to the
-          historical account india, this was the kningdom where Sugriva ruled
-          with the
-        </p>
+      <div className={styles.inner}>
+        <img src={img} alt="" />
+        <div>
+          <h2>Games</h2>
+          <p>
+            Fire fire: <strong> _SHADOWCLAN_</strong>
+          </p>
+          <p>
+            PUBG mobile: <strong> _SHADOW_CLAN_</strong>
+          </p>
+          <p>
+            Clash of clans: <strong> SHADOW WARRIORS</strong>
+          </p>
+        </div>
       </div>
     </div>
   );

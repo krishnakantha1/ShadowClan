@@ -6,6 +6,7 @@
   justify-content: space-around;
   z-index: 2;
   transition: all 0.3s ease-in-out;
+  background-color: black;
 }
 
 .navFixed {
