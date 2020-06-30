@@ -10,7 +10,7 @@
 }
 
 .navFixed {
-  background-color: floralwhite;
+  background-color: white;
   position: fixed;
   top: 0;
   left: 0;
@@ -67,14 +67,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    background-color: floralwhite;
+    background-color: white;
 
     clip-path: circle(0% at 90% -10%);
     transition: clip-path 1s ease-in-out;
   }
 
   .nav {
-    background-color: floralwhite;
+    background-color: white;
     position: fixed;
     top: 0;
     left: 0;
