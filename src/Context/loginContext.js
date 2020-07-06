@@ -2,7 +2,9 @@ import React, { createContext, useState } from "react";
 
 const loginDetails = {
   loggedIn: false,
-  loggedInAs: null,
+  username: null,
+  token: null,
+  id: null,
 };
 
 export const LoginContext = createContext(loginDetails);
@@ -10,14 +12,25 @@ export const LoginContext = createContext(loginDetails);
 export const LoginProvider = ({ children }) => {
   const [details, setDetails] = useState(loginDetails);
 
-  const loggin = (name) => {
-    if (!name) return;
-    setDetails({ loggedIn: true, loggedInAs: name });
+  const loggin = (data) => {
+    if (!data) return;
+    setDetails({
+      loggedIn: true,
+      username: data.username,
+      token: data.token,
+      id: data.id,
+    });
   };
 
   const loggout = () => {
     if (!details.loggedIn) return;
-    setDetails({ loggedIn: false, loggedInAs: null });
+    setDetails({
+      loggedIn: false,
+      username: null,
+      token: null,
+      id: null,
+    });
+    localStorage.removeItem("LogDetail");
   };
 
   return (

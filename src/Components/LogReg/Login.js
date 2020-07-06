@@ -31,8 +31,8 @@ export const Login = () => {
       },
     });
     if (status) {
-      loggin(data.username);
-      //save token
+      loggin(data);
+      localStorage.setItem("LogDetail", JSON.stringify(data));
     } else {
       setWrongCred(true);
       setFetching(false);

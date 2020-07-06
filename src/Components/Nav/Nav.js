@@ -20,13 +20,12 @@ export const Nav = () => {
         setFixed(false);
       }
     };
-
     window.addEventListener("scroll", navPlacemnt);
 
     return () => {
       window.removeEventListener("scroll", navPlacemnt);
     };
-  });
+  }, [fixed]);
 
   const doLogout = () => {
     setPromptOut(!promptLogout);
