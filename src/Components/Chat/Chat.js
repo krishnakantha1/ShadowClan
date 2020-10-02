@@ -11,15 +11,11 @@ export const Chat = () => {
 
   const [group, setGroup] = useState("general");
 
-  const switchGroup = (newGroup) => {
-    setGroup(newGroup);
-  };
-
   return (
     <div className={styles.chatContainer}>
       {LoginDetail.loggedIn ? (
         <>
-          <ChatControler switchGroup={switchGroup} />
+          <ChatControler switchGroup={setGroup} />
           <ChatArea group={group} />
         </>
       ) : (
@@ -29,10 +25,10 @@ export const Chat = () => {
   );
 };
 
-const NotLoggedIn = () => {
+function NotLoggedIn() {
   return (
     <div className={styles.notLoggedIn}>
       <h1>Please log in to use the chat feature!</h1>
     </div>
   );
-};
+}

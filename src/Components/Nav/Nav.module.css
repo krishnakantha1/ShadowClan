@@ -50,6 +50,15 @@
   background-color: grey;
   transition: transform 0.3s ease;
 }
+.join a {
+  border: 2px solid grey;
+  padding: 0.2rem 0.75rem;
+  border-radius: 10px;
+}
+.join:hover a {
+  background-color: grey;
+  color: white;
+}
 
 @media screen and (max-width: 768px) {
   .burger {
@@ -101,6 +110,14 @@
   .toggle .line3 {
     transform: rotate(45deg) translate(-5px, -6px);
   }
+  .join a {
+    border: none;
+    padding: none;
+  }
+  .join:hover a {
+    background-color: transparent;
+    color: grey;
+  }
 }
 
 /* Prompt for log out */
@@ -114,16 +131,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 .prompt {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-
   border-radius: 5px;
   background-color: gray;
-
   height: 30vh;
   width: 20%;
   animation: showPrompt 0.3s ease-in-out forwards;

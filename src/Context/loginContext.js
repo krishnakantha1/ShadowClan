@@ -1,19 +1,20 @@
 import React, { createContext, useState } from "react";
 
-const loginDetails = {
+const loginDetailsInitial = {
   loggedIn: false,
   username: null,
   token: null,
   id: null,
 };
 
-export const LoginContext = createContext(loginDetails);
+export const LoginContext = createContext(loginDetailsInitial);
 
 export const LoginProvider = ({ children }) => {
-  const [details, setDetails] = useState(loginDetails);
+  const [details, setDetails] = useState(loginDetailsInitial);
 
   const loggin = (data) => {
     if (!data) return;
+    localStorage.setItem("LogDetail", JSON.stringify(data.token));
     setDetails({
       loggedIn: true,
       username: data.username,
@@ -24,12 +25,7 @@ export const LoginProvider = ({ children }) => {
 
   const loggout = () => {
     if (!details.loggedIn) return;
-    setDetails({
-      loggedIn: false,
-      username: null,
-      token: null,
-      id: null,
-    });
+    setDetails(loginDetailsInitial);
     localStorage.removeItem("LogDetail");
   };
 

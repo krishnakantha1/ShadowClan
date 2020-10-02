@@ -1,6 +1,16 @@
 /* Chat */
 .chatContainer {
   display: flex;
+  position: relative;
+}
+
+@media screen and (max-width: 768px) {
+  .chatContainer {
+    margin-top: 10vh;
+    overflow: hidden;
+    height: 90vh;
+    width: 100%;
+  }
 }
 
 /* chat Controler */
@@ -35,7 +45,9 @@
 
 @media screen and (max-width: 768px) {
   .chatControler {
-    margin-top: 10vh;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
@@ -65,11 +77,67 @@
   flex-direction: column;
 }
 
+.getPreviousChatButton {
+  height: 30px;
+  width: 30px;
+  margin: 0px auto 10px auto;
+  border-radius: 50%;
+  background-color: white;
+  position: relative;
+}
+.getPreviousChatButton .previousBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 100%;
+  height: 100%;
+}
+.getPreviousChatButton .previousBtn span {
+  color: black;
+}
+
+.gettingPrevious {
+  height: 30px;
+  width: 60px;
+  margin: 0px auto 10px auto;
+  border-radius: 15px;
+  background-color: white;
+  position: relative;
+}
+.gettingPrevious .previousBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0px 10px 0px 10px;
+  width: 100%;
+  height: 100%;
+}
+.gettingPrevious .previousBtn span {
+  height: 8px;
+  width: 8px;
+  background-color: black;
+  border-radius: 50%;
+  opacity: 0;
+  animation: blink 0.75s infinite alternate ease-in-out;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .chatArea .chats {
   width: 100%;
   flex-grow: 1;
   padding: 10px;
   overflow: auto;
+  scroll-behavior: auto;
 }
 .chatArea .messageInner {
   background-color: black;
@@ -123,7 +191,19 @@
 
 @media screen and (max-width: 768px) {
   .innerChatContainer {
-    margin-top: 10vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.5s ease-in-out;
+  }
+  .slide {
+    left: 100px;
+  }
+  .chatArea form input[type="text"] {
+    width: 75%;
+  }
+  .chatArea form input[type="submit"] {
+    width: 20%;
   }
 }
 
@@ -142,9 +222,4 @@
   padding: 30px;
   text-transform: uppercase;
   letter-spacing: 5px;
-}
-@media screen and (max-width: 768px) {
-  .notLoggedIn {
-    margin-top: 10vh;
-  }
 }

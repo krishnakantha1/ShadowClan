@@ -2,26 +2,31 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 
 import styles from "./LogReg.module.css";
-
 import { LoginContext } from "../../Context/loginContext";
 
-export const Login = () => {
+const initialState = { email: "", password: "" };
+
+export const Login = ({ toggle }) => {
   //user credientials for login.
-  const [credential, setCredential] = useState({ email: "", password: "" });
+  const [credential, setCredential] = useState(initialState);
 
   //flags
-  const [wrongCred, setWrongCred] = useState(false);
+  const [error, setError] = useState({ error: false, message: "" });
   const [fetching, setFetching] = useState(false);
 
   //this is the function for setting context value on login.
   const { loggin } = useContext(LoginContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (credential.email.length === 0 || credential.password.length === 0)
+    if (credential.email.length === 0 || credential.password.length === 0) {
+      setError({ error: true, message: "Please fill in your credientials." });
       return;
+    }
+
     setFetching(true);
     const {
-      data: { status, data },
+      data: { error, data, message },
     } = await axios({
       method: "POST",
       url: "https://shadowclan-auth.herokuapp.com/login",
@@ -30,31 +35,32 @@ export const Login = () => {
         password: credential.password,
       },
     });
-    if (status) {
+    if (!error) {
       loggin(data);
-      localStorage.setItem("LogDetail", JSON.stringify(data));
     } else {
-      setWrongCred(true);
+      setError({
+        error: true,
+        message: message,
+      });
       setFetching(false);
     }
   };
 
   const onchange = (e) => {
-    if (wrongCred) setWrongCred(false);
+    if (error.error) setError({ error: false, message: "" });
     const { name, value } = e.target;
     setCredential({ ...credential, [name]: value });
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.arc}></div>
-      <div className={styles.loginContainer}>
+    <>
+      <div className={styles.innerContainer}>
         <form onSubmit={handleSubmit} className={styles.loginForm}>
           <div className={fetching ? styles.loader : styles.displayOff}></div>
           <h1>Shadow Clan</h1>
           <input
             className={styles.textField}
-            type="text"
+            type="email"
             value={credential.email}
             onChange={onchange}
             name="email"
@@ -75,13 +81,21 @@ export const Login = () => {
             value="Login"
             disabled={fetching ? true : false}
           ></input>
-          <p className={wrongCred ? styles.danger : styles.displayOff}>
-            Sorry, your credentials provieded was wrong.
+          <p className={error.error ? styles.danger : styles.displayOff}>
+            {error.message}
           </p>
           <p>Dont have an account?? well... just register!</p>
-          <button value="Register">Register</button>
+          <button
+            value="Register"
+            onClick={(e) => {
+              e.preventDefault();
+              toggle();
+            }}
+          >
+            Register
+          </button>
         </form>
       </div>
-    </div>
+    </>
   );
 };

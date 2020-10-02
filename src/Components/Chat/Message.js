@@ -14,9 +14,10 @@ export const Message = ({ message }) => {
       className={
         username === message.username ? styles.myMessage : styles.othersMessage
       }
+      id={message._id}
     >
       <div className={styles.messageInner}>
-        <h3>{username === message.username ? null : message.username}</h3>
+        {username === message.username ? null : <h3>{message.username}</h3>}
         <h4>{message.message}</h4>
       </div>
     </div>

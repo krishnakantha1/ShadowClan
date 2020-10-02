@@ -2,17 +2,38 @@ import React from "react";
 
 import styles from "./Home.module.css";
 import { Banner } from "./Banner";
-import { Tour } from "./Tour";
-import { AboutUs } from "./AboutUs";
-import { Leaders } from "./Leaders";
+import { Feature } from "./Feature";
 
-export const Home = () => {
+//images
+import chatWithFriends from "./img/chat-with-friends.svg";
+import bothMobilePc from "./img/both-mobile-pc.svg";
+
+export const Home = ({ history }) => {
+  const feature = [
+    {
+      title: "Chat With Friends In Real Time.",
+      note:
+        "Provides reliable and real time message feature so you can keep up with what your friends and family are doing anytime.",
+      image: chatWithFriends,
+    },
+    {
+      title: "Chat With Friends In Real Time.",
+      note:
+        "Provides reliable and real time message feature so you can keep up with what your friends and family are doing anytime.",
+      image: bothMobilePc,
+    },
+  ];
   return (
     <div className={styles.container}>
-      <Banner />
-      <Tour />
-      <AboutUs />
-      <Leaders />
+      <Banner history={history} />
+      {feature.map((data, i) => (
+        <Feature
+          image={data.image}
+          title={data.title}
+          note={data.note}
+          key={i}
+        />
+      ))}
     </div>
   );
 };

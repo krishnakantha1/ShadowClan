@@ -44,16 +44,7 @@ export const Nav = () => {
               Home
             </Link>
           </li>
-          <li onClick={() => toggleBurger(!burger)}>
-            <a href="/#aboutUs" className={styles.link}>
-              About Us
-            </a>
-          </li>
-          <li onClick={() => toggleBurger(!burger)}>
-            <Link to="/merchendise" className={styles.link}>
-              Merchendise
-            </Link>
-          </li>
+
           <li onClick={() => toggleBurger(!burger)}>
             <Link to="/chat" className={styles.link}>
               Chat
@@ -70,11 +61,18 @@ export const Nav = () => {
               Logout
             </li>
           ) : (
-            <li onClick={() => toggleBurger(!burger)}>
-              <Link to="/login" className={styles.link}>
-                Login
-              </Link>
-            </li>
+            <>
+              <li onClick={() => toggleBurger(!burger)}>
+                <Link to="/login" className={styles.link}>
+                  Login
+                </Link>
+              </li>
+              <li className={styles.join} onClick={() => toggleBurger(!burger)}>
+                <Link to="/register" className={styles.link}>
+                  Join
+                </Link>
+              </li>
+            </>
           )}
         </ul>
         <div

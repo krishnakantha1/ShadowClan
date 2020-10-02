@@ -1,33 +1,49 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 
 import socketIoClient from "socket.io-client";
-import { Message } from "./Message";
+
+import MessageArea from "./MessageArea";
+import { MessageTypeField } from "./MessageTypeField";
 import styles from "./Chat.module.css";
 import { LoginContext } from "../../Context/loginContext";
 
 let socket;
 
 export const ChatArea = ({ group }) => {
-  const [message, setMessage] = useState("");
   const [othersTyping, setOthersTyping] = useState([]);
   const [messageList, setMessageList] = useState([]);
+  const [fetchingPreviousChat, setFetchingPreviousChat] = useState(false);
 
-  const input = useRef();
   const chatArea = useRef();
+  const previousSize = useRef();
 
   const {
     LoginDetail: { username, token, id },
   } = useContext(LoginContext);
 
+  //Initilizing the socket and other event handlers. also set the clean up.
   useEffect(() => {
-    setMessageList((messages) => []);
-    input.current.value = "";
-    socket = socketIoClient("https://shadowclan-msg.herokuapp.com");
+    setMessageList([]);
+
+    socket = socketIoClient("https://shadowclan-msg.herokuapp.com/");
+
+    // {
+    //   transports: [ 'websocket' ],
+    //   upgrade: false
+    // }
+
     socket.emit("getLatestChat", { group, username, token });
 
-    socket.on("latestChats", (data) => {
+    socket.on("latestChat", (data) => {
       setMessageList((messages) => [...data, ...messages]);
       chatArea.current.scrollTop = chatArea.current.scrollHeight;
+    });
+
+    socket.on("previousChat", (data) => {
+      setMessageList((messages) => [...data, ...messages]);
+      chatArea.current.scrollTop =
+        chatArea.current.scrollHeight - previousSize.current;
+      setFetchingPreviousChat(false);
     });
 
     socket.on("typing", (user) => {
@@ -50,30 +66,68 @@ export const ChatArea = ({ group }) => {
       });
     });
 
+    socket.on("error", (msg) => {
+      console.log(msg);
+    });
+
     return () => {
       socket.emit("doneTyping", { username, id, group });
       socket.disconnect();
     };
-  }, [group, username, token]);
+  }, [group, username, token, id]);
 
-  const isTyping = () => {
-    socket.emit("typing", { username, id, group });
+  //Sliding for mobile*******************
+  const [slide, setSlide] = useState(false);
+  var xDown = null;
+  var yDown = null;
+  function getTouches(evt) {
+    return evt.touches || evt.originalEvent.touches;
+  }
+  const handleTouchStart = (evt) => {
+    const firstTouch = getTouches(evt)[0];
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
   };
+  const handleTouchMove = (evt) => {
+    if (!xDown || !yDown) {
+      return;
+    }
 
-  const isDoneTyping = () => {
-    socket.emit("doneTyping", { username, id, group });
+    var xUp = evt.touches[0].clientX;
+    var yUp = evt.touches[0].clientY;
+
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      if (xDiff > 0) {
+        if (slide) setSlide(false);
+      } else {
+        if (!slide) setSlide(true);
+      }
+    }
+
+    xDown = null;
+    yDown = null;
   };
+  //************************************* */
 
-  const handleMessageSend = (e) => {
+  const getPreviousChat = (e) => {
     e.preventDefault();
-    if (message.length === 0) return;
-
-    socket.emit("NewMessage", { message, group, username, token });
-    setMessage("");
+    setFetchingPreviousChat(true);
+    previousSize.current = chatArea.current.scrollHeight;
+    socket.emit("getPreviousChat", {
+      group,
+      lastMessageId: messageList[0]._id,
+    });
   };
 
   return (
-    <div className={styles.innerChatContainer}>
+    <div
+      className={`${styles.innerChatContainer} ${slide ? styles.slide : ""}`}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+    >
       <div className={styles.chatHeading}>
         <h2>{`#${group}`}</h2>
         {othersTyping.length > 0 ? (
@@ -82,22 +136,44 @@ export const ChatArea = ({ group }) => {
       </div>
       <div className={styles.chatArea}>
         <div ref={chatArea} className={styles.chats}>
-          {messageList.map((message, i) => (
-            <Message key={i} message={message} />
-          ))}
+          <GetPreviousChatButton
+            getPreviousChat={getPreviousChat}
+            fetchingPreviousChat={fetchingPreviousChat}
+          />
+          <MessageArea messageList={messageList} />
         </div>
-        <form onSubmit={handleMessageSend}>
-          <input
-            ref={input}
-            type="text"
-            value={message}
-            onFocus={(e) => isTyping()}
-            onBlur={(e) => isDoneTyping()}
-            onChange={(e) => setMessage(e.target.value)}
-          ></input>
-          <input type="submit" />
-        </form>
+        <MessageTypeField
+          socket={socket}
+          group={group}
+          setMessageList={setMessageList}
+        />
       </div>
+    </div>
+  );
+};
+
+const GetPreviousChatButton = ({ getPreviousChat, fetchingPreviousChat }) => {
+  return (
+    <div
+      className={`${
+        fetchingPreviousChat
+          ? styles.gettingPrevious
+          : styles.getPreviousChatButton
+      }`}
+      onClick={getPreviousChat}
+    >
+      {!fetchingPreviousChat && (
+        <div className={styles.previousBtn}>
+          <span>^</span>
+        </div>
+      )}
+      {fetchingPreviousChat && (
+        <div className={styles.previousBtn}>
+          <span style={{ "--i": "1" }}></span>
+          <span style={{ "--i": "2" }}></span>
+          <span style={{ "--i": "3" }}></span>
+        </div>
+      )}
     </div>
   );
 };

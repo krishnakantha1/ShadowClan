@@ -14,13 +14,13 @@ export const ChatControler = ({ switchGroup }) => {
   return (
     <div className={styles.chatControler}>
       {groups.map((group, i) => (
-        <GroupBadge data={group} key={i} switchGroup={switchGroup} />
+        <GroupBadge group={group} key={i} switchGroup={switchGroup} />
       ))}
     </div>
   );
 };
 
-const GroupBadge = ({ data: { name, img }, switchGroup }) => {
+const GroupBadge = ({ group: { name, img }, switchGroup }) => {
   return (
     <div className={styles.groupBadge}>
       <img
