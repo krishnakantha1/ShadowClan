@@ -7,6 +7,7 @@ import { Home } from "./Components/Home/Home";
 import { Chat } from "./Components/Chat/Chat";
 import { LogReg } from "./Components/LogReg/LogReg";
 import { LoginContext } from "./Context/loginContext";
+import AuthCheck from './Components/Loadings/AuthCheck';
 
 export const App = () => {
   const [verifyToken, setVerifyToken] = useState(true);
@@ -42,7 +43,7 @@ export const App = () => {
   return (
     <>
       {verifyToken ? (
-        <div className="block"></div>
+        <AuthCheck/>
       ) : (
         <Router>
           <Nav />

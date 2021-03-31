@@ -9,18 +9,18 @@ export const MessageTypeField = ({ socket, group, setMessageList }) => {
   } = useContext(LoginContext);
 
   const isTyping = () => {
-    socket.emit("typing", { username, id, group });
+    socket.emit("typing", { username, id, group:group.g_id });
   };
 
   const isDoneTyping = () => {
-    socket.emit("doneTyping", { username, id, group });
+    socket.emit("doneTyping", { username, id, group:group.g_id });
   };
 
   const handleMessageSend = (e) => {
     e.preventDefault();
     if (message.length === 0) return;
 
-    socket.emit("NewMessage", { message, group, username, token });
+    socket.emit("NewMessage", { message, group:group.g_id, username, token });
     setMessage("");
   };
 

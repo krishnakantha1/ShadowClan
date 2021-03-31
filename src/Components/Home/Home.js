@@ -17,9 +17,9 @@ export const Home = ({ history }) => {
       image: chatWithFriends,
     },
     {
-      title: "Chat With Friends In Real Time.",
+      title: "PC and mobile friendly design.",
       note:
-        "Provides reliable and real time message feature so you can keep up with what your friends and family are doing anytime.",
+        "can be used to chat with anyone anywhere with any device, both PC or a mobile device.",
       image: bothMobilePc,
     },
   ];

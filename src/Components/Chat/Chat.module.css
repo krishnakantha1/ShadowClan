@@ -17,7 +17,6 @@
 .chatControler {
   height: 90vh;
   width: 100px;
-  position: relative;
   background-color: black;
   overflow-y: auto;
   border-top: 1px solid grey;
@@ -38,9 +37,39 @@
   border-radius: 50%;
   border: 2px solid gray;
   transition: border-radius 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.addBadge {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  border: 3px solid gray;
+  transition: border-radius 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: dashed;
+  cursor: pointer;
 }
 .badge:hover {
   border-radius: 35%;
+}
+
+:is(.badge, .addBadge) .badgeText {
+  font-weight: bold;
+  font-size: 300%;
+  text-transform: uppercase;
+  text-justify: inter-word;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -48,6 +77,27 @@
     position: absolute;
     top: 0;
     left: 0;
+  }
+}
+
+.xyz {
+  width: 100%;
+  height: 90vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+  padding: 10%;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .xyz {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }
 
@@ -205,6 +255,59 @@
   .chatArea form input[type="submit"] {
     width: 20%;
   }
+}
+
+/* Group Management */
+.groupManagement {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.groupManagement .formContainer {
+  height: 30vh;
+  width: 30%;
+  background-color: black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+}
+.groupManagement .formContainer form {
+  width: 100%;
+  padding: 0 5% 0 5%;
+}
+.groupManagement .formContainer form input[type="text"] {
+  border: none;
+  width: 75%;
+  font-size: 1rem;
+  padding: 5px 10px;
+  margin: 5px 0px;
+  border-style: none;
+  outline: none;
+  background-color: rgb(29, 28, 28);
+  color: white;
+  margin-right: 5%;
+}
+.groupManagement .formContainer form input[type="submit"] {
+  border: none;
+  width: 20%;
+  outline: none;
+  font-size: 1rem;
+  padding: 5px 10px;
+  margin: 5px 0px;
+  border-style: none;
+  outline: none;
+  background-color: rgb(56, 70, 197);
+  color: white;
+  cursor: pointer;
 }
 
 /* Not Logged In */

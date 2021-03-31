@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 
-import socketIoClient from "socket.io-client";
-
 import MessageArea from "./MessageArea";
 import { MessageTypeField } from "./MessageTypeField";
 import styles from "./Chat.module.css";
 import { LoginContext } from "../../Context/loginContext";
+import { createToken } from "./helper";
 
-let socket;
 
-export const ChatArea = ({ group }) => {
+
+export const ChatArea = ({ group,socket }) => {
   const [othersTyping, setOthersTyping] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [fetchingPreviousChat, setFetchingPreviousChat] = useState(false);
+  const [GPCBToggle,setGPCBToggle] = useState(false);
 
   const chatArea = useRef();
   const previousSize = useRef();
+  const gtoken = useRef();
 
   const {
     LoginDetail: { username, token, id },
@@ -24,23 +25,33 @@ export const ChatArea = ({ group }) => {
   //Initilizing the socket and other event handlers. also set the clean up.
   useEffect(() => {
     setMessageList([]);
-
-    socket = socketIoClient("https://shadowclan-msg.herokuapp.com/");
-
+    setFetchingPreviousChat(false);
+    setGPCBToggle(false);
     // {
     //   transports: [ 'websocket' ],
     //   upgrade: false
     // }
-
-    socket.emit("getLatestChat", { group, username, token });
+    gtoken.current = createToken();
+    socket.emit("getLatestChat", {gtoken:gtoken.current, group:group.g_id, username, token });
 
     socket.on("latestChat", (data) => {
-      setMessageList((messages) => [...data, ...messages]);
+      const {re_gtoken , message_list} = data;
+      setGPCBToggle(true);
+      
+      if(re_gtoken!==gtoken.current) return;
+
+      setMessageList((messages) => [...message_list, ...messages]);
       chatArea.current.scrollTop = chatArea.current.scrollHeight;
     });
 
     socket.on("previousChat", (data) => {
-      setMessageList((messages) => [...data, ...messages]);
+      const {re_gtoken , message_list} = data;
+      
+      if(message_list.length===0) setGPCBToggle(false);
+      
+      if(re_gtoken!==gtoken.current) return;
+
+      setMessageList((messages) => [...message_list, ...messages]);
       chatArea.current.scrollTop =
         chatArea.current.scrollHeight - previousSize.current;
       setFetchingPreviousChat(false);
@@ -71,8 +82,14 @@ export const ChatArea = ({ group }) => {
     });
 
     return () => {
-      socket.emit("doneTyping", { username, id, group });
-      socket.disconnect();
+      socket.emit("doneTyping", { username, id, group:group.g_id });
+      socket.emit("leaveRoom", {g_id:group.g_id});
+      socket.off("latestChat");
+      socket.off("previousChat");
+      socket.off("typing");
+      socket.off("NewMessage");
+      socket.off("doneTyping");
+      socket.off("error");
     };
   }, [group, username, token, id]);
 
@@ -113,11 +130,13 @@ export const ChatArea = ({ group }) => {
   //************************************* */
 
   const getPreviousChat = (e) => {
+    if(messageList.length===0) return;
     e.preventDefault();
     setFetchingPreviousChat(true);
     previousSize.current = chatArea.current.scrollHeight;
     socket.emit("getPreviousChat", {
-      group,
+      gtoken:gtoken.current,
+      group:group.g_id,
       lastMessageId: messageList[0]._id,
     });
   };
@@ -129,17 +148,17 @@ export const ChatArea = ({ group }) => {
       onTouchMove={handleTouchMove}
     >
       <div className={styles.chatHeading}>
-        <h2>{`#${group}`}</h2>
+        <h2>{`#${group.g_name}`}</h2>
         {othersTyping.length > 0 ? (
           <h3>{othersTyping[othersTyping.length - 1].username} is typing...</h3>
         ) : null}
       </div>
       <div className={styles.chatArea}>
         <div ref={chatArea} className={styles.chats}>
-          <GetPreviousChatButton
+          {GPCBToggle && (<GetPreviousChatButton
             getPreviousChat={getPreviousChat}
             fetchingPreviousChat={fetchingPreviousChat}
-          />
+          />)}
           <MessageArea messageList={messageList} />
         </div>
         <MessageTypeField

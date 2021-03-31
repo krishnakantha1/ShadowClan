@@ -1,34 +1,32 @@
-import React from "react";
+import React,{useState} from "react";
 
 import styles from "./Chat.module.css";
-import pubg from "./img/pubg.jpg";
-import freefire from "./img/freefire.jpg";
-import coc from "./img/coc.jpg";
 
-export const ChatControler = ({ switchGroup }) => {
-  const groups = [
-    { name: "pubg", img: pubg },
-    { name: "freefire", img: freefire },
-    { name: "coc", img: coc },
-  ];
+
+export const ChatControler = ({ groupSet, setGroup, setGroupToggle }) => {
+
   return (
     <div className={styles.chatControler}>
-      {groups.map((group, i) => (
-        <GroupBadge group={group} key={i} switchGroup={switchGroup} />
-      ))}
+      {
+        Object.keys(groupSet).map((key,i)=>(
+          <GroupBadge group={groupSet[key]} key={i} setGroup={setGroup}/>
+        ))
+      }
+      <div className={styles.groupBadge}>
+        <span className={styles.addBadge} onClick={()=> setGroupToggle((value)=>!value)}>
+          <p className={styles.badgeText}>+</p>
+        </span>
+      </div>
     </div>
   );
 };
 
-const GroupBadge = ({ group: { name, img }, switchGroup }) => {
+const GroupBadge = ({ group, setGroup }) => {
   return (
     <div className={styles.groupBadge}>
-      <img
-        className={styles.badge}
-        src={img}
-        alt="game-badge"
-        onClick={() => switchGroup(name)}
-      ></img>
+      <span className={styles.badge} onClick = {()=>setGroup(group)}>
+        <p className={styles.badgeText}>{group.g_name[0]}</p>
+      </span>
     </div>
   );
 };

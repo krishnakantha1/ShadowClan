@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import styles from "./LogReg.module.css";
+import { LoginContext } from "../../Context/loginContext";
 
 export const Register = ({ toggle }) => {
+  const { loggin } = useContext(LoginContext);
   const [credential, setCredential] = useState({
     username: "",
     email: "",
@@ -38,17 +40,27 @@ export const Register = ({ toggle }) => {
     if (validateError) {
       setError({ error: true, message: validateMessage });
       return;
+    }
+    setFetching(true);
+    const {
+      data: { data, error, message },
+    } = await axios({
+      url: "https://shadowclan-auth.herokuapp.com/register",
+      method: "POST",
+      data: {
+        username: credential.username,
+        password: credential.password,
+        email: credential.email,
+      },
+    });
+    if (!error) {
+      loggin(data);
     } else {
-      const data = await axios({
-        url: "https://shadowclan-auth.herokuapp.com/register",
-        method: "POST",
-        data: {
-          username: credential.username,
-          password: credential.password,
-          email: credential.email,
-        },
+      setError({
+        error: true,
+        message: message,
       });
-      console.log(data);
+      setFetching(false);
     }
   };
 
