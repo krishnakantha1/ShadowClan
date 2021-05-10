@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-
+import styles from "./Chat.module.css";
 import MessageArea from "./MessageArea";
 import { MessageTypeField } from "./MessageTypeField";
-import styles from "./Chat.module.css";
+
 import { LoginContext } from "../../Context/loginContext";
 import { createToken } from "./helper";
 
@@ -94,7 +94,7 @@ export const ChatArea = ({ group,socket }) => {
   }, [group, username, token, id]);
 
   //Sliding for mobile*******************
-  const [slide, setSlide] = useState(false);
+  const [slideState, setSlideState] = useState(0);
   var xDown = null;
   var yDown = null;
   function getTouches(evt) {
@@ -118,9 +118,11 @@ export const ChatArea = ({ group,socket }) => {
 
     if (Math.abs(xDiff) > Math.abs(yDiff)) {
       if (xDiff > 0) {
-        if (slide) setSlide(false);
+        if(slideState===0) setSlideState(1);
+        else if(slideState===-1) setSlideState(0);
       } else {
-        if (!slide) setSlide(true);
+        if(slideState===0) setSlideState(-1);
+        else if(slideState===1) setSlideState(0);
       }
     }
 
@@ -143,7 +145,10 @@ export const ChatArea = ({ group,socket }) => {
 
   return (
     <div
-      className={`${styles.innerChatContainer} ${slide ? styles.slide : ""}`}
+      className={`${styles.innerChatContainer} 
+      ${slideState===-1 ? styles.rightSlide:""}
+      ${slideState===1 ? styles.leftSlide :""}
+      `}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
     >

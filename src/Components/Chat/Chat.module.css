@@ -24,11 +24,8 @@
 
 .groupBadge {
   width: 100%;
-  height: 100px;
+  padding-top: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .badge {
@@ -37,9 +34,13 @@
   border-radius: 50%;
   border: 2px solid gray;
   transition: border-radius 0.4s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
   cursor: pointer;
 }
 .addBadge {
@@ -48,9 +49,13 @@
   border-radius: 50%;
   border: 3px solid gray;
   transition: border-radius 0.4s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   border-style: dashed;
   cursor: pointer;
 }
@@ -60,7 +65,7 @@
 
 :is(.badge, .addBadge) .badgeText {
   font-weight: bold;
-  font-size: 300%;
+  font-size: 250%;
   text-transform: uppercase;
   text-justify: inter-word;
 
@@ -74,6 +79,7 @@
 
 @media screen and (max-width: 768px) {
   .chatControler {
+    width: min(100px, 25vw);
     position: absolute;
     top: 0;
     left: 0;
@@ -193,11 +199,17 @@
   background-color: black;
   color: white;
   border-radius: 5px;
-  padding: 10px 15px;
-  margin-bottom: 5px;
+  padding: 8px 10px;
+  margin-top: 13px;
   max-width: 80%;
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+.chatArea .messageInner.sameUser {
+  margin-top: 2px;
+}
+.chatArea .messageInner .userName {
+  font-weight: 900;
 }
 
 .chatArea .myMessage {
@@ -246,8 +258,11 @@
     left: 0;
     transition: all 0.5s ease-in-out;
   }
-  .slide {
-    left: 100px;
+  .rightSlide {
+    left: min(100px, 25vw);
+  }
+  .leftSlide {
+    left: max(-300px, -75vw);
   }
   .chatArea form input[type="text"] {
     width: 75%;
@@ -259,7 +274,6 @@
 
 /* Group Management */
 .groupManagement {
-  z-index: 10;
   position: absolute;
   top: 0;
   left: 0;
@@ -325,4 +339,41 @@
   padding: 30px;
   text-transform: uppercase;
   letter-spacing: 5px;
+}
+
+/* CharLoader */
+.ChatLoader {
+  width: 100%;
+  height: 90vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ChatLoader .blinker {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0px 10px 0px 10px;
+  width: min(40vw, 150px);
+  height: fit-content;
+}
+
+.ChatLoader .blinker span {
+  height: 20px;
+  width: 20px;
+  background-color: grey;
+  border-radius: 50%;
+  opacity: 0;
+  animation: blink 0.75s infinite alternate ease-in-out;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+/* Members */
+.Members {
+  width: 300px;
+  height: 90vh;
+  background-color: black;
+  border-top: 1px solid grey;
 }

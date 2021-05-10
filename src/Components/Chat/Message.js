@@ -4,11 +4,11 @@ import { LoginContext } from "../../Context/loginContext";
 
 import styles from "./Chat.module.css";
 
-export const Message = ({ message }) => {
+export const Message = ({ message,prevsame }) => {
   const {
     LoginDetail: { username },
   } = useContext(LoginContext);
-
+  
   return (
     <div
       className={
@@ -16,9 +16,9 @@ export const Message = ({ message }) => {
       }
       id={message._id}
     >
-      <div className={styles.messageInner}>
-        {username === message.username ? null : <h3>{message.username}</h3>}
-        <h4>{message.message}</h4>
+      <div className={`${styles.messageInner} ${prevsame?styles.sameUser:''}`}>
+        {prevsame || username === message.username ? null : <p className={styles.userName}>{message.username}</p>}
+        <p>{message.message}</p>
       </div>
     </div>
   );

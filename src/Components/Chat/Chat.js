@@ -4,11 +4,14 @@ import styles from "./Chat.module.css";
 
 import { ChatControler } from "./ChatControler";
 import { ChatArea } from "./ChatArea";
+import { Members } from "./Members";
 
 import { LoginContext } from "../../Context/loginContext";
 
 import socketIoClient from "socket.io-client";
 import GroupManagement from "./GroupManagement";
+
+
 let socket;
 
 export const Chat = () => {
@@ -26,7 +29,8 @@ export const Chat = () => {
 
   const getGroup = async ()=>{
       //https://shadowclan-msg.herokuapp.com/
-      socket = socketIoClient("http://localhost:4000/");
+      //http://localhost:4000/
+      socket = socketIoClient("https://shadowclan-msg.herokuapp.com/");
 
       socket.emit("getGroups",{userId:id,username});
 
@@ -62,9 +66,15 @@ export const Chat = () => {
         ) : (
         <>
           <ChatControler groupSet={groupSet} setGroup={setGroup} socket={socket} setGroupToggle={setGroupToggle}/>
-          {group!==null && (<ChatArea group={group} socket={socket} />)}
+          {group!==null && (
+            <>
+            <ChatArea group={group} socket={socket} />
+            <Members socket={socket} group={group}/>
+            </>
+          )}
           {group===null && (<JoinOrCreateGroupPrompt/>)}
           {MGTgroupToggle && <GroupManagement setGroup={setGroup} setGroupSet={setGroupSet} setGroupToggle={setGroupToggle} socket={socket}/>}
+          
         </>
       ) : (
         <NotLoggedIn />
@@ -83,11 +93,11 @@ function NotLoggedIn() {
 
 function ChatLoader(){
   return (
-    <div className={styles.notLoggedIn}>
-      <div className={styles.previousBtn}>
-          <span style={{ "--i": "1" }}></span>
+    <div className={styles.ChatLoader}>
+      <div className={styles.blinker}>
+          <span style={{ "--i": "1" }} ></span>
           <span style={{ "--i": "2" }}></span>
-          <span style={{ "--i": "3" }}></span>
+          <span style={{ "--i": "3"}}></span>
         </div>
     </div>
   )
